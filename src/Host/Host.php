@@ -28,6 +28,23 @@ class Host
     private $shellCommand = 'bash -s';
 
     /**
+     * @var bool
+     */
+    private $isWindows = false;
+
+
+    public function windowsCmd(bool $flag): self
+    {
+        $this->isWindows = $flag;
+        $this->config->set('windowsCmd', $flag);
+        return $this;
+    }
+
+    public function isWindows(): bool
+    {
+        return $this->isWindows;
+    }
+    /**
      * @param string $hostname
      */
     public function __construct(string $hostname)
