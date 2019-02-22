@@ -83,10 +83,17 @@ class Client
 
         $shellCommand = $host->getShellCommand();
 
+        // Windows OpenSSH server launch his CMD before executinh bash -s
+        // It does not accept semi-colon but "&" as separator.
+        $commandSeparator = ';';
+        if ($host->isWindows()) {
+            $commandSeparator = '&';
+        }
+
         if (strtolower(substr(PHP_OS, 0, 3)) === 'win') {
-            $ssh = "ssh $sshArguments $host $become \"$shellCommand; printf '[exit_code:%s]' $?;\"";
+            $ssh = "ssh $sshArguments $host $become \"$shellCommand{$commandSeparator} printf '[exit_code:%s]' $?;\"";
         } else {
-            $ssh = "ssh $sshArguments $host $become '$shellCommand; printf \"[exit_code:%s]\" $?;'";
+            $ssh = "ssh $sshArguments $host $become '$shellCommand{$commandSeparator} printf \"[exit_code:%s]\" $?;'";
         }
 
         $process = new Process($ssh);
