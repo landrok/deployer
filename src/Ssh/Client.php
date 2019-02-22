@@ -30,26 +30,7 @@ class Client
      * @var bool
      */
     private $multiplexing;
-
-    /**
-     * @var bool
-     */
-    private $isWindows = false;
-
-
-    public function windowsCmd(bool $flag): self
-    {
-        $this->isWindows = $flag;
-        $this->config->set('windowsCmd', $flag);
-        return $this;
-    }
-
-    public function isWindows(): bool
-    {
-        return $this->isWindows;
-    }
-
-    
+   
     public function __construct(OutputInterface $output, ProcessOutputPrinter $pop, bool $multiplexing)
     {
         $this->output = $output;
